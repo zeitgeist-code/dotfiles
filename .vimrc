@@ -7,8 +7,8 @@ colorscheme vividchalk
 if (has('gui_running'))
   set guifont=Monaco:h16
   set guioptions-=T
-  set columns=120
-  set lines=70
+  set columns=100
+  set lines=999
   set number
 endif
  
@@ -27,8 +27,6 @@ set showcmd       " display incomplete commands
 set showmode      " show current mode down to bottom
 
 set nowrap        " don't wrap lines
-
-set lines=999     " max. height
 
 let mapleader = ","  " override default leader '\' to ','
 
