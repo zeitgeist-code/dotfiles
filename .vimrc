@@ -2,7 +2,11 @@ call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
 syntax on
 filetype plugin indent on
-colorscheme vividchalk
+"colorscheme vividchalk
+"colorscheme wombat
+colorscheme custom
+
+set cursorline
 
 if (has('gui_running'))
   set guifont=Monaco:h16
@@ -63,14 +67,11 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
 endif
 
 
-" Maps autocomplete to tab
+" Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
 
 " shift-enter
 map <S-Enter> O<Esc>
-
-" insert new line and stay in command-mode
-map <CR> o<Esc>
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -185,10 +186,6 @@ command! RTroutes :tabe config/routes.rb
 if executable("ack")
   set grepprg=ack\ -H\ --nogroup\ --nocolor
 endif
- 
-" Color scheme
-highlight NonText guibg=#060606
-highlight Folded  guibg=#0A0A0A guifg=#9090D0
  
 " Numbers
 set number
