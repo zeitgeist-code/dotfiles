@@ -9,9 +9,9 @@ colorscheme custom
 set cursorline
 
 if (has('gui_running'))
-  set guifont=Monaco:h16
+  set guifont=Envy_Code_R:h16
   set guioptions-=T
-  set columns=100
+  set columns=999
   set lines=999
   set number
 endif
@@ -30,7 +30,7 @@ set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set showmode      " show current mode down to bottom
 
-set nowrap        " don't wrap lines
+"set nowrap        " don't wrap lines
 
 let mapleader = ","  " override default leader '\' to ','
 
@@ -75,7 +75,9 @@ map <S-Enter> O<Esc>
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
- 
+  " Reload .vimrc after each write
+  au! BufWritePost .vimrc source % 
+  
   " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
@@ -140,7 +142,18 @@ map <Leader>sc :RScontroller
 map <Leader>sv :RSview 
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
- 
+
+" indent file
+map <Leader>i gg=G
+
+" ruby focused unit test
+map <Leader>m :RunAllRubyTests<CR>
+map <C-a> :w<CR>:RunAllRubyTests<CR>
+map <C-x> :q<CR>
+map <Leader>rc :RunRubyFocusedContext<CR>
+map <Leader>rf :RunRubyFocusedUnitTest<CR>
+map <Leader>rl :RunLastRubyTest<CR>
+
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
  

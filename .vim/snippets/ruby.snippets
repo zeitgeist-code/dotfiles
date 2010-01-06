@@ -108,7 +108,7 @@ snippet w
 snippet rw
 	attr_accessor :${1:attr_names}
 snippet tc
-	require "test/unit"
+	require File.dirname(__FILE__) + '/../test_helper'
 
 	require "${1:library_file_name}"
 

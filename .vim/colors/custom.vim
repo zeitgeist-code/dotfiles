@@ -119,8 +119,8 @@ highlight Search        guifg=NONE ctermfg=NONE gui=none cterm=none
 call s:hibg("Search"    ,"#555555","DarkBlue",81)
 highlight IncSearch     guifg=White guibg=Black ctermfg=White ctermbg=Black
 highlight MoreMsg       guifg=#00AA00 ctermfg=Green
-highlight LineNr 		    guifg=#857b6f guibg=#000000 gui=none
-call s:hibg("LineNr"    ,"#222222","DarkBlue",80)
+highlight LineNr 		    guifg=#202020 guibg=#111111 gui=none
+call s:hibg("LineNr"    ,"#000000","DarkBlue",80)
 highlight VertSplit 	  guifg=#222222 guibg=#444444 gui=none
 highlight Question      none
 high link Question      MoreMsg
@@ -139,9 +139,9 @@ highlight SpellRare     ctermbg=DarkMagenta
 highlight SpellCap      ctermbg=DarkBlue
 highlight SpellLocal    ctermbg=DarkCyan
 
-highlight Folded 		    guifg=#eeeeee guibg=#777777 gui=none
-call s:hibg("Folded"    ,"#777777","DarkBlue",81)
-call s:hifg("Folded"    ,"#eeeeee","LightCyan",81)
+highlight Folded 		    guifg=#cccccc guibg=#222222 gui=none
+call s:hibg("Folded"    ,"#222222","DarkBlue",81)
+call s:hifg("Folded"    ,"#cccccc","LightCyan",81)
 highlight FoldColumn    none
 high link FoldColumn    Folded
 highlight DiffAdd       ctermbg=4 guibg=DarkBlue
