@@ -1,47 +1,59 @@
 call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
-syntax on
+" appearance
+colorscheme custom   
+set guifont=Envy_Code_R:h16
+
+
+syntax on            " syntax highlighting on
+set guioptions-=T    " show toolbar
+set columns=999      " max. columns
+set lines=999        " max lines 
+set number           " show line numbers
+set cursorline       " highlight cursorline
+
+set ruler            " show the cursor position all the time
+set showcmd          " display incomplete commands
+set showmode         " show current mode down to bottom
+
+set laststatus=2     " Always display the status line
+set scrolloff=3 " keepmore context when scrolling off the end of a buffer 
+"
+" TODO: what is this? => autocmd FileType ruby runtime ruby_mappings.vim
+
+" indention
 filetype plugin indent on
-"colorscheme vividchalk
-"colorscheme wombat
-colorscheme custom
 
-set cursorline
+set autoindent
 
-if (has('gui_running'))
-  set guifont=Envy_Code_R:h16
-  set guioptions-=T
-  set columns=999
-  set lines=999
-  set number
-endif
- 
-autocmd FileType ruby runtime ruby_mappings.vim
+set shiftwidth=2
 
 set tabstop=2
 set smarttab
-set shiftwidth=2
-set autoindent
 set expandtab
 
-set history=1000  " remember 1000 commands
+set autoread         " autorefresh files that changed
+set history=1000     " remember 1000 commands
+set nowrap           " don't wrap lines
 
-set ruler         " show the cursor position all the time
-set showcmd       " display incomplete commands
-set showmode      " show current mode down to bottom
+" display extra whitespace
+"set list listchars=tab:»·,trail:·
 
-"set nowrap        " don't wrap lines
 
-let mapleader = ","  " override default leader '\' to ','
+" mappings
 
+let mapleader=","    " set leader to ','
+
+" edit vim configuration
+map <Leader>vr :e ~/.vimrc<CR>   
+map <Leader>gvr :e ~/.gvimrc<CR>
+
+" Reload .vimrc after each write
+au! BufWritePost .vimrc source % 
+
+" toggle NERDTree view
 nmap <silent> <Leader>p :NERDTreeToggle<CR>
 
-"make <c-l> clear the highlight as well as redraw
-nnoremap <C-L> :nohls<CR><C-L>
-inoremap <C-L> <C-O>:nohls<CR>
- 
-"map to bufexplorer
-nnoremap <C-B> :BufExplorer<cr>
  
 "map to fuzzy finder text mate stylez
 nnoremap <c-f> :FuzzyFinderTextMate<CR>
@@ -55,96 +67,10 @@ let g:syntastic_enable_signs=1
 " Don't use Ex mode, use Q for formatting
 map Q gq
  
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
- 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-  set hlsearch
-endif
-
-
-" Maps autocomplete to ctrl-space
-imap <C-Space> <C-N>
-
-" shift-enter
-map <S-Enter> O<Esc>
-
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-  " Reload .vimrc after each write
-  au! BufWritePost .vimrc source % 
-  
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
-  augroup END
-
-else
-
-  set autoindent  " always set autoindenting on
-
-endif " has("autocmd")
-
-if has("folding")
-  set foldenable
-  set foldmethod=syntax
-  set foldlevel=1
-  set foldnestmax=2
-  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
-endif
- 
-" Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
-set expandtab
- 
-" Always display the status line
-set laststatus=2
- 
-" Edit the README_FOR_APP (makes :R commands work)
-map <Leader>R :e doc/README_FOR_APP<CR>
- 
-" Leader shortcuts for Rails commands
-map <Leader>m :Rmodel 
-map <Leader>c :Rcontroller 
-map <Leader>v :Rview 
-map <Leader>u :Runittest 
-map <Leader>f :Rfunctionaltest 
-map <Leader>tm :RTmodel 
-map <Leader>tc :RTcontroller 
-map <Leader>tv :RTview 
-map <Leader>tu :RTunittest 
-map <Leader>tf :RTfunctionaltest 
-map <Leader>sm :RSmodel 
-map <Leader>sc :RScontroller 
-map <Leader>sv :RSview 
-map <Leader>su :RSunittest 
-map <Leader>sf :RSfunctionaltest 
-
-" indent file
-map <Leader>i gg=G
+" == ruby == " == ruby == 
+" cmd-r will run the given file
+imap <D-r> <ESC><D-r>
+nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
 map <Leader>m :RunAllRubyTests<CR>
@@ -154,72 +80,52 @@ map <Leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
 
-" Hide search highlighting
-map <Leader>h :set invhls <CR>
- 
+
+" Maps autocomplete to ctrl-space
+imap <C-Space> <C-N>
+
+" shift-enter
+map <S-Enter> O<Esc>
+
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
+
+" folding
+set foldenable
+set foldmethod=syntax
+set foldlevel=1
+set foldnestmax=2
+set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
+
+" indent file
+map <Leader>i gg=G
+
 " Opens an edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>e
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
  
 " Opens a tab edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>t
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
  
 " Inserts the path of the currently edited file into a command
-" Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
  
-
 " Duplicate a selection
-" Visual mode: D
 vmap D y'>p
-
-" For Haml
-au! BufRead,BufNewFile *.haml         setfiletype haml
  
-" No Help, please
-nmap <F1> <Esc>
- 
-" Press ^F from insert mode to insert the current file name
-imap <C-F> <C-R>=expand("%")<CR>
- 
-" Press Shift+P while in visual mode to replace the selection without
-" overwriting the default register
-vmap P p :call setreg('"', getreg('0')) <CR>
- 
-" Display extra whitespace
-"set list listchars=tab:»·,trail:·
- 
-" Edit routes
-command! Rroutes :e config/routes.rb
-command! RTroutes :tabe config/routes.rb
-
-
-" Use Ack instead of Grep when available
-if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor
-endif
- 
-" Numbers
-set number
-set numberwidth=5
- 
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
- 
-" Tab completion options
+" tab completion options
 " (only complete to the longest unambiguous match, and show a menu)
 set completeopt=longest,menu
 set wildmode=list:longest,list:full
 
-set complete=.,t
  
 " cases ignored unless uppercase character is given
 set ignorecase
 set smartcase
-
-" keepmore context when scrolling off the end of a buffer
-set scrolloff=3
 
 
 " Tags
@@ -266,18 +172,6 @@ function! SetCursorPosition()
             normal! zz
         endif
     end
-endfunction
- 
-"define :HighlightLongLines command to highlight the offending parts of
-"lines that are longer than the specified length (defaulting to 80)
-command! -nargs=? HighlightLongLines call s:HighlightLongLines('<args>')
-function! s:HighlightLongLines(width)
-    let targetWidth = a:width != '' ? a:width : 79
-    if targetWidth > 0
-        exec 'match Todo /\%>' . (targetWidth) . 'v/'
-    else
-        echomsg "Usage: HighlightLongLines [natural number]"
-    endif
 endfunction
  
 " Set a nicer foldtext function
