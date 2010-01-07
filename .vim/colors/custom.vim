@@ -115,9 +115,7 @@ highlight SpecialKey	  guifg=#808080 guibg=#343434 gui=none
 highlight Directory     none
 high link Directory     Identifier
 highlight ErrorMsg      guibg=Red ctermbg=DarkRed guifg=NONE ctermfg=NONE
-highlight Search        guifg=NONE ctermfg=NONE gui=none cterm=none
-call s:hibg("Search"    ,"#555555","DarkBlue",81)
-highlight IncSearch     guifg=White guibg=Black ctermfg=White ctermbg=Black
+highlight IncSearch     guibg=#000000 guifg=#00ff00 ctermfg=White ctermbg=Black
 highlight MoreMsg       guifg=#00AA00 ctermfg=Green
 highlight LineNr 		    guifg=#202020 guibg=#111111 gui=none
 call s:hibg("LineNr"    ,"#000000","DarkBlue",80)
@@ -139,9 +137,9 @@ highlight SpellRare     ctermbg=DarkMagenta
 highlight SpellCap      ctermbg=DarkBlue
 highlight SpellLocal    ctermbg=DarkCyan
 
-highlight Folded 		    guifg=#cccccc guibg=#222222 gui=none
-call s:hibg("Folded"    ,"#222222","DarkBlue",81)
-call s:hifg("Folded"    ,"#cccccc","LightCyan",81)
+highlight Folded 		    guifg=#999999 guibg=#101010 gui=none
+call s:hibg("Folded"    ,"#101010","DarkBlue",81)
+call s:hifg("Folded"    ,"#999999","LightCyan",81)
 highlight FoldColumn    none
 high link FoldColumn    Folded
 highlight DiffAdd       ctermbg=4 guibg=DarkBlue
@@ -149,11 +147,11 @@ highlight DiffChange    ctermbg=5 guibg=DarkMagenta
 highlight DiffDelete    ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=DarkCyan
 highlight DiffText      ctermbg=DarkRed
 highlight DiffText      cterm=bold ctermbg=9 gui=bold guibg=Red
+highlight MatchParen    guifg=#f6f3e8 guibg=#857b6f     gui=BOLD      ctermfg=white       ctermbg=darkgray    cterm=NONE
+highlight Pmenu         guifg=#f6f3e8 guibg=#444444
+highlight PmenuSel       guifg=#000000     guibg=#cae682     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+highlight Search         guifg=NONE        guibg=NONE        gui=underline ctermfg=NONE        ctermbg=NONE        cterm=underline
 
-highlight Pmenu         guifg=White ctermfg=White gui=bold cterm=bold
-highlight PmenuSel      guifg=White ctermfg=White gui=bold cterm=bold
-call s:hibg("Pmenu"     ,"#000099","Blue",18)
-call s:hibg("PmenuSel"  ,"#5555ff","DarkCyan",39)
 highlight PmenuSbar     guibg=Grey ctermbg=Grey
 highlight PmenuThumb    guibg=White ctermbg=White
 highlight TabLine       gui=underline cterm=underline
