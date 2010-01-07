@@ -4,9 +4,7 @@ call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 colorscheme custom   
 set guifont=Envy_Code_R:h16
 
-
 syntax on            " syntax highlighting on
-set guioptions-=T    " show toolbar
 set columns=999      " max. columns
 set lines=999        " max lines 
 set number           " show line numbers
@@ -15,11 +13,11 @@ set cursorline       " highlight cursorline
 set ruler            " show the cursor position all the time
 set showcmd          " display incomplete commands
 set showmode         " show current mode down to bottom
+set hlsearch
 
 set laststatus=2     " Always display the status line
-set scrolloff=3 " keepmore context when scrolling off the end of a buffer 
-"
-" TODO: what is this? => autocmd FileType ruby runtime ruby_mappings.vim
+set scrolloff=3      " keepmore context when scrolling off the end of a buffer 
+set visualbell       " no beep
 
 " indention
 filetype plugin indent on
@@ -39,10 +37,24 @@ set nowrap           " don't wrap lines
 " display extra whitespace
 "set list listchars=tab:»·,trail:·
 
+" Make sure that unsaved buffers that are to be put in the background are
+" allowed to go in there (ie. the "must save first" error doesn't come up)
+set hidden
+
+" Hide the mouse pointer while typing
+"set mousehide
+
+" get rid of the silly characters in window separators
+set fillchars=""
 
 " mappings
 
 let mapleader=","    " set leader to ','
+
+" set text wrapping toggles
+nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
+" Toggle highlight search
+nmap <silent> <Leader>:n :set invhls<CR>:set hls?<CR>
 
 " edit vim configuration
 map <Leader>vr :e ~/.vimrc<CR>   
@@ -210,3 +222,4 @@ function! MyFoldText()
   return sub . info
 endfunction
 
+autocmd FileType ruby runtime ruby_mappings.vim

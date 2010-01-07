@@ -128,7 +128,7 @@ highlight Visual		    guifg=#f6f3e8 guibg=#444444 gui=none
 
 highlight VisualNOS     gui=none cterm=none
 call s:hibg("VisualNOS" ,"#444444","DarkBlue",81)
-call s:hibg("MatchParen","#1100AA","DarkBlue",18)
+call s:hibg("MatchParen","#118800","DarkBlue",18)
 highlight WarningMsg    guifg=Red ctermfg=Red
 highlight Error         ctermbg=DarkRed
 highlight SpellBad      ctermbg=DarkRed
@@ -149,8 +149,8 @@ highlight DiffText      ctermbg=DarkRed
 highlight DiffText      cterm=bold ctermbg=9 gui=bold guibg=Red
 highlight MatchParen    guifg=#f6f3e8 guibg=#857b6f     gui=BOLD      ctermfg=white       ctermbg=darkgray    cterm=NONE
 highlight Pmenu         guifg=#f6f3e8 guibg=#444444
-highlight PmenuSel       guifg=#000000     guibg=#cae682     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
-highlight Search         guifg=NONE        guibg=NONE        gui=underline ctermfg=NONE        ctermbg=NONE        cterm=underline
+highlight PmenuSel      guifg=#000000     guibg=#cae682     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
+highlight Search        guifg=#ffffff guibg=#118800   
 
 highlight PmenuSbar     guibg=Grey ctermbg=Grey
 highlight PmenuThumb    guibg=White ctermbg=White
