@@ -136,15 +136,10 @@ vmap D y'>p
 " (only complete to the longest unambiguous match, and show a menu)
 set completeopt=longest,menu
 set wildmode=list:longest,list:full
-
  
 " cases ignored unless uppercase character is given
 set ignorecase
 set smartcase
-
-
-" Tags
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
  
 "snipmate setup
 " try
