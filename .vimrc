@@ -19,6 +19,9 @@ set laststatus=2     " Always display the status line
 set scrolloff=3      " keepmore context when scrolling off the end of a buffer 
 set visualbell       " no beep
 
+" Set the status line the way i like it
+set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
+
 " indention
 filetype plugin indent on
 
@@ -44,7 +47,7 @@ set hidden
 " Hide the mouse pointer while typing
 "set mousehide
 
-" get rid of the silly characters in window separators
+" get rid of the characters in window separators
 set fillchars=""
 
 " mappings
