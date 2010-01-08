@@ -2,7 +2,8 @@ call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
 " appearance
 colorscheme custom   
-set guifont=Envy_Code_R:h16
+"set guifont=Envy_Code_R:h16
+set guifont=Inconsolata:h18
 
 syntax on            " syntax highlighting on
 set columns=999      " max. columns
