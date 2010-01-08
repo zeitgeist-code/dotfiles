@@ -19,6 +19,8 @@ set laststatus=2     " Always display the status line
 set scrolloff=3      " keepmore context when scrolling off the end of a buffer 
 set visualbell       " no beep
 
+set guioptions-=T    " not toolbar 
+
 " Set the status line the way i like it
 set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
 
@@ -82,19 +84,6 @@ let g:syntastic_enable_signs=1
 " Don't use Ex mode, use Q for formatting
 map Q gq
  
-" == ruby == " == ruby == 
-" cmd-r will run the given file
-imap <D-r> <ESC><D-r>
-nmap <D-r> :!ruby %<CR>
-
-" ruby focused unit test
-map <Leader>m :RunAllRubyTests<CR>
-map <C-a> :w<CR>:RunAllRubyTests<CR>
-map <C-x> :q<CR>
-map <Leader>rc :RunRubyFocusedContext<CR>
-map <Leader>rf :RunRubyFocusedUnitTest<CR>
-map <Leader>rl :RunLastRubyTest<CR>
-
 
 " Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
@@ -221,3 +210,20 @@ function! MyFoldText()
 endfunction
 
 autocmd FileType ruby runtime ruby_mappings.vim
+
+" == ruby == " == ruby == 
+" cmd-r will run the given file
+imap <D-r> <ESC><D-r>
+nmap <D-r> :!ruby %<CR>
+
+" ruby focused unit test
+"map <Leader>m :RunAllRubyTests<CR>
+
+map <leader>m :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
+map <C-a> :w<CR>:RunAllRubyTests<CR>
+map <C-x> :q<CR>
+map <Leader>rc :RunRubyFocusedContext<CR>
+map <Leader>rf :RunRubyFocusedUnitTest<CR>
+map <Leader>rl :RunLastRubyTest<CR>
+
+
