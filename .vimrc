@@ -1,12 +1,11 @@
 call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
 " appearance
-colorscheme custom   
-"set guifont=Envy_Code_R:h16
-set guifont=Inconsolata:h18
+colorscheme custom
+set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
 syntax on            " syntax highlighting on
-set columns=999      " max. columns
+set columns=999      " max columns
 set lines=999        " max lines 
 set number           " show line numbers
 set cursorline       " highlight cursorline
@@ -20,18 +19,17 @@ set laststatus=2     " Always display the status line
 set scrolloff=3      " keepmore context when scrolling off the end of a buffer 
 set visualbell       " no beep
 
-set guioptions-=T    " not toolbar 
+set fillchars=""     " no characters in window seperators
+set statusline=%<%f%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
 
-" Set the status line the way i like it
-set stl=%f\ %m\ %r\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
+set guioptions-=T    " no toolbar 
+set guioptions-=L    " no scrollbars
+set guioptions-=r
 
 " indention
 filetype plugin indent on
-
 set autoindent
-
 set shiftwidth=2
-
 set tabstop=2
 set smarttab
 set expandtab
@@ -49,30 +47,25 @@ set hidden
 
 " Hide the mouse pointer while typing
 "set mousehide
-
-" get rid of the characters in window separators
-set fillchars=""
-
 " mappings
+set splitright
+set splitbelow
 
 let mapleader=","    " set leader to ','
 
 " set text wrapping toggles
 nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
 " Toggle highlight search
-nmap <silent> <Leader>:n :set invhls<CR>:set hls?<CR>
+nmap <silent> <Leader>n :set invhls<CR>:set hls?<CR>
 
 " edit vim configuration
 map <Leader>vr :e ~/.vimrc<CR>   
 map <Leader>gvr :e ~/.gvimrc<CR>
-
-" Reload .vimrc after each write
-au! BufWritePost .vimrc source % 
+au! BufWritePost .vimrc source % " Reload .vimrc after each write
 
 " toggle NERDTree view
 nmap <silent> <Leader>p :NERDTreeToggle<CR>
 
- 
 "map to fuzzy finder text mate stylez
 nnoremap <c-f> :FuzzyFinderTextMate<CR>
  
@@ -85,9 +78,24 @@ let g:syntastic_enable_signs=1
 " Don't use Ex mode, use Q for formatting
 map Q gq
  
+" ,, switches to the last buffer used
+map <leader><leader> <C-^>
+
+"Vertical split then hop to new buffer
+noremap <leader>v :vsp<CR>
+noremap <leader>h :split<CR>
+
+"Make current window the only one
+noremap <leader>o :only<CR>
 
 " Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
+
+" Set ctrl-a and ctrl-e to jump to beginning and end of line respectively
+imap <C-a> <C-o>^
+imap <C-e> <C-o>$
+nmap <C-a> ^
+nmap <C-e> $
 
 " shift-enter
 map <S-Enter> O<Esc>
@@ -103,7 +111,7 @@ autocmd BufReadPost *
 " folding
 set foldenable
 set foldmethod=syntax
-set foldlevel=1
+set foldlevel=22
 set foldnestmax=2
 set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 
@@ -113,53 +121,37 @@ map <Leader>i gg=G
 " Opens an edit command with the path of the currently edited file filled in
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
  
-" Opens a tab edit command with the path of the currently edited file filled in
-map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
- 
 " Inserts the path of the currently edited file into a command
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+map <Leader>. :cd <C-R>=expand("%:p:h")  <Enter>
+
+" Seriously, guys. It's not like :W is bound to anything anyway.
+command! W :w
+
  
-" Duplicate a selection
-vmap D y'>p
- 
-" tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
-set wildmode=list:longest,list:full
- 
-" cases ignored unless uppercase character is given
-set ignorecase
-set smartcase
- 
-"snipmate setup
-" try
-"  source ~/.vim/snippets/support_functions.vim
-" catch
-"  source $HOMEPATH\vimfiles\snippets\support_functions.vim
-" endtry
-autocmd vimenter * call s:SetupSnippets()
-function! s:SetupSnippets()
- 
-    "if we're in a rails env then read in the rails snippets
-    if filereadable("./config/environment.rb")
-        call ExtractSnips("~/.vim/snippets/ruby-rails", "ruby")
-        call ExtractSnips("~/.vim/snippets/eruby-rails", "eruby")
+" Remap the tab key to do autocompletion or indentation depending on the
+" context (from http://www.vim.org/tips/tip.php?tip_id=102)
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
     endif
- 
-    call ExtractSnips("~/.vim/snippets/html", "eruby")
-    call ExtractSnips("~/.vim/snippets/html", "xhtml")
-    call ExtractSnips("~/.vim/snippets/html", "php")
 endfunction
- 
-"visual search mappings
-function! s:VSetSearch()
-    let temp = @@
-    norm! gvy
-    let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-    let @@ = temp
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+" When hitting <;>, complete a snippet if there is one; else, insert an actual
+" <;>
+function! InsertSnippetWrapper()
+    let inserted = TriggerSnippet()
+    if inserted == "\<tab>"
+        return ";"
+    else
+        return inserted
+    endif
 endfunction
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
+inoremap ; <c-r>=InsertSnippetWrapper()<cr>
  
  
 "jump to last cursor position when opening a file
@@ -210,7 +202,7 @@ function! MyFoldText()
   return sub . info
 endfunction
 
-autocmd FileType ruby runtime ruby_mappings.vim
+"autocmd FileType ruby runtime ruby_mappings.vim
 
 " == ruby == " == ruby == 
 " cmd-r will run the given file
@@ -218,13 +210,11 @@ imap <D-r> <ESC><D-r>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
-"map <Leader>m :RunAllRubyTests<CR>
+map <Leader>m :RunAllRubyTests<CR>
 
-map <leader>m :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
-map <C-a> :w<CR>:RunAllRubyTests<CR>
+map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
 map <C-x> :q<CR>
 map <Leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
-
 

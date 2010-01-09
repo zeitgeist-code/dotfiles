@@ -3,7 +3,7 @@ map <leader>m :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
 function! RunTests(target, args)
     silent ! echo
     exec 'silent ! echo -e "\033[1;36mRunning tests in ' . a:target . '\033[0m"'
-    set makeprg=spec\ --require\ make_output_formatter\ --format\ Spec::Runner::Formatter::MakeOutputFormatter
+    "set makeprg=spec\ --require\ make_output_formatter\ --format\ Spec::Runner::Formatter::MakeOutputFormatter
     silent w
     exec "make " . a:target . " " . a:args
 endfunction
