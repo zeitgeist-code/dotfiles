@@ -1,7 +1,7 @@
 call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
 " appearance
-colorscheme custom
+colorscheme kreuzberg
 set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
 syntax on            " syntax highlighting on
@@ -21,6 +21,8 @@ set visualbell       " no beep
 
 set fillchars=""     " no characters in window seperators
 set statusline=%<%f\ %y%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
+set cmdheight=2     " command line height 
+
 
 " Don't update the display while executing macros
 set guioptions-=T    " no toolbar 
@@ -48,13 +50,13 @@ set nowrap           " don't wrap lines
 " Make sure that unsaved buffers that are to be put in the background are
 " allowed to go in there (ie. the "must save first" error doesn't come up)
 set hidden
-set incsearch
+set incsearch " jump to/mark match while typing
+" case only matters 
+set ignorecase
+set smartcase
 
-" Hide the mouse pointer while typing
-"set mousehide
-" mappings
-set splitright
-set splitbelow
+set splitright " opens new vertival spli on the right 
+set splitbelow " open horizontal spilt on the bottom
 
 let mapleader=","    " set leader to ','
 
@@ -217,7 +219,8 @@ imap { {}<LEFT>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
-map <Leader>m :RunAllRubyTests<CR>
+map <Leader>m :w<CR>:!ruby %<CR>
+"map <Leader>m :RunAllRubyTests<CR>
 
 map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
 map <leader>rc :RunRubyFocusedContext<CR>
