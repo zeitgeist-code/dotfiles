@@ -5,7 +5,7 @@ colorscheme custom
 set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
 syntax on            " syntax highlighting on
-"set columns=999      " set columns
+set columns=999      " set columns
 set lines=999        " max lines 
 set number           " show line numbers
 set cursorline       " highlight cursorline
@@ -224,4 +224,8 @@ map <leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
 
+" Use Ack instead of Grep when available
+if executable("ack")
+  set grepprg=ack\ -H\ --nogroup\ --nocolor
+endif
 
