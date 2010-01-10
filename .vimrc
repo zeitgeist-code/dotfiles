@@ -20,11 +20,9 @@ set scrolloff=3      " keepmore context when scrolling off the end of a buffer
 set visualbell       " no beep
 
 set fillchars=""     " no characters in window seperators
-set statusline=%<%f%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
+set statusline=%<%f\ %y%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
 
 " Don't update the display while executing macros
-set guioptions=ac
-
 set guioptions-=T    " no toolbar 
 set guioptions-=L    " no scrollbars
 set guioptions-=r
@@ -50,6 +48,7 @@ set nowrap           " don't wrap lines
 " Make sure that unsaved buffers that are to be put in the background are
 " allowed to go in there (ie. the "must save first" error doesn't come up)
 set hidden
+set incsearch
 
 " Hide the mouse pointer while typing
 "set mousehide
@@ -58,6 +57,10 @@ set splitright
 set splitbelow
 
 let mapleader=","    " set leader to ','
+
+" ctrl-] 
+nnoremap ü <C-]>
+nnoremap Ü <C-O>
 
 " set text wrapping toggles
 nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
@@ -124,43 +127,34 @@ set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:f
 " indent file
 map <Leader>i mx<Esc>gg=G<Esc>'x
 map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x
-" Opens an edit command with the path of the currently edited file filled in
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
- 
-" Inserts the path of the currently edited file into a command
-map <Leader>. :cd <C-R>=expand("%:p:h")  <Enter>
+
+" cd to the directory containing the file in the buffer
+nmap  ,cd :lcd %:h
 
 " Seriously, guys. It's not like :W is bound to anything anyway.
 command! W :w
 
 " close window
 map <C-x> :q<CR>
- 
-" Remap the tab key to do autocompletion or indentation depending on the
-" context (from http://www.vim.org/tips/tip.php?tip_id=102)
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
+
+" Guesses the tab behavior by:
+" 1: snippet if exists
+" 2: autocomplete if exists
+" 3: <tab>
+" ! switched of mappings in "snipMate.vim"" file under "after/plugin"" !
+function! GuessTab()
+  let inserted = TriggerSnippet()
+  if inserted != "\<tab>"
+    return inserted
+  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
 endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <Tab> <C-R>=GuessTab()<CR>
 inoremap <s-tab> <c-n>
 
-" When hitting <;>, complete a snippet if there is one; else, insert an actual
-" <;>
-function! InsertSnippetWrapper()
-    let inserted = TriggerSnippet()
-    if inserted == "\<tab>"
-        return ";"
-    else
-        return inserted
-    endif
-endfunction
-inoremap ; <c-r>=InsertSnippetWrapper()<cr>
- 
  
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
@@ -210,22 +204,24 @@ function! MyFoldText()
   return sub . info
 endfunction
 
-"autocmd FileType ruby runtime ruby_mappings.vim
-
 " == ruby == " == ruby == 
 " cmd-r will run the given file
 imap <D-r> <ESC><D-r>
-imap () ()<LEFT>
-imap [] []<LEFT>
-imap {} {}<LEFT>
-imap <> <><LEFT>
+
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+
+imap ( ()<LEFT>
+imap [ []<LEFT>
+imap { {}<LEFT>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
 map <Leader>m :RunAllRubyTests<CR>
 
 map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
-map <Leader>rc :RunRubyFocusedContext<CR>
+map <leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
+
 
