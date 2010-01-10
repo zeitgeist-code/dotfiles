@@ -5,7 +5,7 @@ colorscheme custom
 set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
 syntax on            " syntax highlighting on
-set columns=999      " max columns
+"set columns=999      " set columns
 set lines=999        " max lines 
 set number           " show line numbers
 set cursorline       " highlight cursorline
@@ -22,9 +22,15 @@ set visualbell       " no beep
 set fillchars=""     " no characters in window seperators
 set statusline=%<%f%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
 
+" Don't update the display while executing macros
+set guioptions=ac
+
 set guioptions-=T    " no toolbar 
 set guioptions-=L    " no scrollbars
 set guioptions-=r
+
+set lazyredraw       " Don't update the display while executing macros
+
 
 " indention
 filetype plugin indent on
@@ -81,15 +87,15 @@ map Q gq
 " ,, switches to the last buffer used
 map <leader><leader> <C-^>
 
-"Vertical split then hop to new buffer
-noremap <leader>v :vsp<CR>
-noremap <leader>h :split<CR>
 
 "Make current window the only one
 noremap <leader>o :only<CR>
 
 " Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
+
+" Same as default except that I remove the 'u' option
+""set complete=.,w,b,t
 
 " Set ctrl-a and ctrl-e to jump to beginning and end of line respectively
 imap <C-a> <C-o>^
@@ -111,13 +117,13 @@ autocmd BufReadPost *
 " folding
 set foldenable
 set foldmethod=syntax
-set foldlevel=22
-set foldnestmax=2
+set foldlevel=1
+set foldnestmax=3
 set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 
 " indent file
-map <Leader>i gg=G
-
+map <Leader>i mx<Esc>gg=G<Esc>'x
+map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x
 " Opens an edit command with the path of the currently edited file filled in
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
  
@@ -127,6 +133,8 @@ map <Leader>. :cd <C-R>=expand("%:p:h")  <Enter>
 " Seriously, guys. It's not like :W is bound to anything anyway.
 command! W :w
 
+" close window
+map <C-x> :q<CR>
  
 " Remap the tab key to do autocompletion or indentation depending on the
 " context (from http://www.vim.org/tips/tip.php?tip_id=102)
@@ -207,13 +215,16 @@ endfunction
 " == ruby == " == ruby == 
 " cmd-r will run the given file
 imap <D-r> <ESC><D-r>
+imap () ()<LEFT>
+imap [] []<LEFT>
+imap {} {}<LEFT>
+imap <> <><LEFT>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
 map <Leader>m :RunAllRubyTests<CR>
 
 map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
-map <C-x> :q<CR>
 map <Leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
