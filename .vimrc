@@ -232,3 +232,6 @@ if executable("ack")
   set grepprg=ack\ -H\ --nogroup\ --nocolor
 endif
 
+" Tags
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+
