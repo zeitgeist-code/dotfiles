@@ -23,6 +23,7 @@ set fillchars=""     " no characters in window seperators
 set statusline=%<%f\ %y%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
 set cmdheight=2     " command line height 
 
+set shellcmdflag=-ic
 
 " Don't update the display while executing macros
 set guioptions-=T    " no toolbar 

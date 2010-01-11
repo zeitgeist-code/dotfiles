@@ -97,7 +97,7 @@ hi link FoldColumn    Folded
 
 call s:hifg("Normal","#EEEEEE","White",87)
 if &background == "light" || has("gui_running")
-    hi Normal guibg=#141414 ctermbg=Black
+    hi Normal guibg=#171717 ctermbg=Black
 else
     hi Normal guibg=Black ctermbg=NONE
 endif
@@ -107,15 +107,15 @@ hi StatusLineNC  guifg=#857b6f guibg=#aaaaaa gui=none
 hi Ignore        ctermfg=Black
 hi WildMenu      guifg=Black   guibg=#ffff00 gui=bold ctermfg=Black ctermbg=Yellow cterm=bold
 hi Cursor 		   guifg=NONE    guibg=#656565 gui=none
-hi CursorLine    guibg=#171717
+hi CursorLine    guibg=#1a1a1a
 hi CursorColumn  guibg=#2d2d2d
-hi NonText  		 guifg=#808080 guibg=#141414 gui=none
+hi NonText  		 guifg=#808080 guibg=#171717 gui=none
 hi SpecialKey	   guifg=#808080 guibg=#343434 gui=none
 hi Directory     none
 hi ErrorMsg      guibg=Red ctermbg=DarkRed guifg=NONE ctermfg=NONE
 hi IncSearch     guifg=#118800 guibg=#ffffff ctermfg=White ctermbg=Black
 hi MoreMsg       guifg=#00AA00 ctermfg=Green
-hi LineNr 		   guifg=#303030 guibg=#141414 gui=none
+hi LineNr 		   guifg=#303030 guibg=#171717 gui=none
 hi VertSplit 	   guifg=#222222 guibg=#444444 gui=none
 hi Question      none
 hi Title		     guifg=#f6f3e8 guibg=NONE	gui=bold
@@ -130,7 +130,7 @@ hi SpellRare     ctermbg=DarkMagenta
 hi SpellCap      ctermbg=DarkBlue
 hi SpellLocal    ctermbg=DarkCyan
 
-hi Folded 		    guifg=#999999 guibg=#171717 gui=none
+hi Folded 		    guifg=#999999 guibg=#1a1a1a gui=none
 hi FoldColumn    none
 hi DiffAdd       ctermbg=4 guibg=DarkBlue
 hi DiffChange    ctermbg=5 guibg=DarkMagenta
