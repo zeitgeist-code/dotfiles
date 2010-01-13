@@ -16,7 +16,7 @@ set showmode         " show current mode down to bottom
 set hlsearch
 
 set laststatus=2     " Always display the status line
-set scrolloff=3      " keepmore context when scrolling off the end of a buffer 
+set scrolloff=10     " keepmore context when scrolling off the end of a buffer 
 set visualbell       " no beep
 
 set fillchars=""     " no characters in window seperators
@@ -25,13 +25,11 @@ set cmdheight=2     " command line height
 
 set shellcmdflag=-ic
 
-" Don't update the display while executing macros
 set guioptions-=T    " no toolbar 
 set guioptions-=L    " no scrollbars
 set guioptions-=r
 
 set lazyredraw       " Don't update the display while executing macros
-
 
 " indention
 filetype plugin indent on
@@ -56,7 +54,7 @@ set incsearch " jump to/mark match while typing
 set ignorecase
 set smartcase
 
-set splitright " opens new vertival spli on the right 
+set splitright " opens new vertical split on the right 
 set splitbelow " open horizontal spilt on the bottom
 
 let mapleader=","    " set leader to ','
@@ -64,6 +62,12 @@ let mapleader=","    " set leader to ','
 " ctrl-] 
 nnoremap ü <C-]>
 nnoremap Ü <C-O>
+
+" spell ",s"" = toggle spell on/off, language => ",de" or ",en" 
+map <Leader>s :set spell! spell?<CR>
+set spelllang=de
+map <Leader>de :set spelllang=de<CR>:set spell<CR>
+map <Leader>en :set spelllang=en<CR>:set spell<CR>
 
 " set text wrapping toggles
 nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
@@ -93,15 +97,11 @@ map Q gq
 " ,, switches to the last buffer used
 map <leader><leader> <C-^>
 
-
 "Make current window the only one
 noremap <leader>o :only<CR>
 
 " Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
-
-" Same as default except that I remove the 'u' option
-""set complete=.,w,b,t
 
 " Set ctrl-a and ctrl-e to jump to beginning and end of line respectively
 imap <C-a> <C-o>^
@@ -124,27 +124,27 @@ autocmd BufReadPost *
 set foldenable
 set foldmethod=syntax
 set foldlevel=1
-set foldnestmax=3
+set foldnestmax=5
 set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 
-" indent file
+" indent file 
 map <Leader>i mx<Esc>gg=G<Esc>'x
+" xml indention
 map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x
 
 " cd to the directory containing the file in the buffer
 nmap  ,cd :lcd %:h
 
-" Seriously, guys. It's not like :W is bound to anything anyway.
-command! W :w
+command! W :w " wurstfinger fix: :w == :W 
 
 " close window
 map <C-x> :q<CR>
 
-" Guesses the tab behavior by:
+" guesses the tab behavior by:
 " 1: snippet if exists
 " 2: autocomplete if exists
 " 3: <tab>
-" ! switched of mappings in "snipMate.vim"" file under "after/plugin"" !
+" Note: switched off mappings in "snipMate.vim"" file under "after/plugin"
 function! GuessTab()
   let inserted = TriggerSnippet()
   if inserted != "\<tab>"
