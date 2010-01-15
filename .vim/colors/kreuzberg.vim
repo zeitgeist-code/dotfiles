@@ -1,106 +1,45 @@
 " Vim color scheme - "kreuzberg.vim"
 " author: Joe Hannes
 
-" inspired by blackboard theme 
+" inspired by blackboard theme, vividchalk and xoria256 
 
-if has("gui_running")
-    set background=dark
-endif
+set background=dark
 
 hi clear
 
-if exists("syntax_on")
-   syntax reset
-endif
+syntax reset
 
 let colors_name = "kreuzberg"
 
-" First two functions adapted from inkpot.vim
 
-" map a urxvt cube number to an xterm-256 cube number
-fun! s:M(a)
-    return strpart("0245", a:a, 1) + 0
-endfun
+hi  link railsMethod            PreProc
+hi  link rubyDefine             Keyword
+hi  link rubySymbol             Constant
+hi  link rubyAccess             rubyMethod
+hi  link rubyAttribute          rubyMethod
+hi  link rubyEval               rubyMethod
+hi  link rubyException          rubyMethod
+hi  link rubyInclude            rubyMethod
+hi  link rubyStringDelimiter    rubyString
+hi  link rubyRegexp             Regexp
+hi  link rubyRegexpDelimiter    rubyRegexp
+"hi link rubyConstant           Variable
+"hi link rubyGlobalVariable     Variable
+"hi link rubyClassVariable      Variable
+"hi link rubyInstanceVariable   Variable
+hi  link javascriptRegexpString Regexp
+hi  link javascriptNumber       Number
+hi  link javascriptNull         Constant
+hi  link diffAdded              String
+hi  link diffRemoved            Statement
+hi  link diffLine               PreProc
+hi  link diffSubname            Comment
+hi  link Directory              Identifier
+hi  link Question               MoreMsg
+hi  link FoldColumn             Folded
 
-" map a urxvt colour to an xterm-256 colour
-fun! s:X(a)
-    if &t_Co == 88
-        return a:a
-    else
-        if a:a == 8
-            return 237
-        elseif a:a < 16
-            return a:a
-        elseif a:a > 79
-            return 232 + (3 * (a:a - 80))
-        else
-            let l:b = a:a - 16
-            let l:x = l:b % 4
-            let l:y = (l:b / 4) % 4
-            let l:z = (l:b / 16)
-            return 16 + s:M(l:x) + (6 * s:M(l:y)) + (36 * s:M(l:z))
-        endif
-    endif
-endfun
 
-function! E2T(a)
-    return s:X(a:a)
-endfunction
-
-function! s:choose(mediocre,good)
-    if &t_Co != 88 && &t_Co != 256
-        return a:mediocre
-    else
-        return s:X(a:good)
-    endif
-endfunction
-
-function! s:hifg(group,guifg,first,second,...)
-    if a:0 && &t_Co == 256
-        let ctermfg = a:1
-    else
-        let ctermfg = s:choose(a:first,a:second)
-    endif
-    exe "hi ".a:group." guifg=".a:guifg." ctermfg=".ctermfg
-endfunction
-
-function! s:hibg(group,guibg,first,second)
-    let ctermbg = s:choose(a:first,a:second)
-    exe "hi ".a:group." guibg=".a:guibg." ctermbg=".ctermbg
-endfunction
-
-hi link railsMethod         PreProc
-hi link rubyDefine          Keyword
-hi link rubySymbol          Constant
-hi link rubyAccess          rubyMethod
-hi link rubyAttribute       rubyMethod
-hi link rubyEval            rubyMethod
-hi link rubyException       rubyMethod
-hi link rubyInclude         rubyMethod
-hi link rubyStringDelimiter rubyString
-hi link rubyRegexp          Regexp
-hi link rubyRegexpDelimiter rubyRegexp
-"hi link rubyConstant        Variable
-"hi link rubyGlobalVariable  Variable
-"hi link rubyClassVariable   Variable
-"hi link rubyInstanceVariable Variable
-hi link javascriptRegexpString  Regexp
-hi link javascriptNumber        Number
-hi link javascriptNull          Constant
-hi link diffAdded        String
-hi link diffRemoved      Statement
-hi link diffLine         PreProc
-hi link diffSubname      Comment
-hi link Directory     Identifier
-hi link Question      MoreMsg
-hi link FoldColumn    Folded
-
-call s:hifg("Normal","#EEEEEE","White",87)
-if &background == "light" || has("gui_running")
-    hi Normal guibg=#171717 ctermbg=Black
-else
-    hi Normal guibg=Black ctermbg=NONE
-endif
+hi Normal        guibg=#171717 guifg=#ffffff ctermbg=Black
 hi Todo          guifg=#118800 guibg=#171717
 hi StatusLine    guifg=#f6f3e8 guibg=#373737 gui=italic
 hi StatusLineNC  guifg=#857b6f guibg=#aaaaaa gui=none
@@ -128,14 +67,15 @@ hi SpellRare     ctermbg=DarkMagenta
 hi SpellCap      ctermbg=DarkBlue
 hi SpellLocal    ctermbg=DarkCyan
 
-hi Folded 		    guifg=#cccccc guibg=#1a1a1a gui=none
+hi Folded 		   guifg=#cccccc guibg=#1a1a1a gui=none
 hi FoldColumn    none
-hi DiffAdd       ctermbg=4 guibg=DarkBlue
-hi DiffChange    ctermbg=5 guibg=DarkMagenta
-hi DiffDelete    ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=DarkCyan
-hi DiffText      ctermbg=DarkRed
-hi DiffText      cterm=bold ctermbg=9 gui=bold guibg=Red
-hi MatchParen    guifg=#d2fa3c guibg=#171717 gui=bold
+hi DiffAdded     ctermfg=150 guifg=#afdf87
+hi DiffRemoved   ctermfg=174 guifg=#df8787
+hi DiffAdd       ctermfg=bg  guifg=bg      ctermbg=151 guibg=#afdfaf
+hi DiffDelete    ctermfg=bg  guifg=bg      ctermbg=246 guibg=#949494 cterm=none gui=none
+hi DiffChange    ctermfg=bg  guifg=bg      ctermbg=181 guibg=#dfafaf
+hi DiffText      ctermfg=bg  guifg=bg      ctermbg=174 guibg=#df8787 cterm=none gui=none
+hi MatchParen    guifg=#d2fa3c guibg=#1a1a1a gui=bold
 hi Pmenu         guifg=#f6f3e8 guibg=#444444
 hi PmenuSel      guifg=#000000     guibg=#cae682     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=NONE
 hi Search        guifg=#ffffff guibg=#118800   

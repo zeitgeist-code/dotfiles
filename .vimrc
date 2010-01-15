@@ -49,7 +49,7 @@ set nowrap           " don't wrap lines
 " Make sure that unsaved buffers that are to be put in the background are
 " allowed to go in there (ie. the "must save first" error doesn't come up)
 set hidden
-set incsearch " jump to/mark match while typing
+set incsearch " jump to and mark match while typing
 " case only matters 
 set ignorecase
 set smartcase
@@ -76,7 +76,6 @@ nmap <silent> <Leader>n :set invhls<CR>:set hls?<CR>
 
 " edit vim configuration
 map <Leader>vr :e ~/.vimrc<CR>   
-map <Leader>gvr :e ~/.gvimrc<CR>
 au! BufWritePost .vimrc source % " Reload .vimrc after each write
 
 " toggle NERDTree view
@@ -211,12 +210,12 @@ endfunction
 " cmd-r will run the given file
 imap <D-r> <ESC><D-r>
 
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
+"inoremap " ""<LEFT>
+"inoremap ' ''<LEFT>
 
-imap ( ()<LEFT>
-imap [ []<LEFT>
-imap { {}<LEFT>
+"imap ( ()<LEFT>
+"imap [ []<LEFT>
+"imap { {}<LEFT>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test

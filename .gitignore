@@ -1,10 +1,8 @@
-# Can ignore specific files
 .DS_Store
-
-# Use wildcards as well
+.svn
 *~
-*.swp
-
-# Can also ignore all directories and files in a directory.
-tmp/**/* 
-
+.*.swp
+tags
+.swo
+jferris-*.gemspec
+*.scratch.*
