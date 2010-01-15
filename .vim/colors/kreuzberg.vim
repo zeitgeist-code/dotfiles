@@ -58,7 +58,7 @@ hi LineNr 		   guifg=#3c3c3c guibg=#171717 gui=none
 hi VertSplit 	   guifg=#222222 guibg=#444444 gui=none
 hi Question      none
 hi Title		     guifg=#f6f3e8 guibg=NONE	gui=bold
-hi Visual		     guifg=#f6f3e8 guibg=#444444 gui=none
+hi Visual		     guifg=#f6f3e8 guibg=#666666 gui=none
 hi VisualNOS     guibg=#444444 gui=none cterm=none
 hi WarningMsg    guifg=Red ctermfg=Red
 hi Error         ctermbg=DarkRed
