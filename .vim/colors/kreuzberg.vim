@@ -102,4 +102,3 @@ hi railsUserClass  guifg=#ff0000
 hi Special         guifg=#118800
 hi Regexp          guifg=#61ce3c
 hi rubyMethod      guifg=#d2fa3c
-

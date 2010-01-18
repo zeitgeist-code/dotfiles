@@ -55,6 +55,8 @@ set smartcase
 set splitright " opens new vertical split on the right 
 set splitbelow " open horizontal spilt on the bottom
 
+set clipboard=unnamed " let 'y' copy to clipboard under windows
+
 let mapleader=","    " set leader to ','
 
 " ctrl-] 
@@ -93,7 +95,7 @@ map Q gq
  
 " ,, switches to the last buffer used
 map <leader><leader> <C-^>
-
+map <Tab> :bn<CR>
 "Make current window the only one
 noremap <leader>o :only<CR>
 
@@ -218,6 +220,7 @@ nmap <D-r> :!ruby %<CR>
 " ruby focused unit test
 map <Leader>m :w<CR>:!ruby %<CR>
 "map <Leader>m :RunAllRubyTests<CR>
+"map <Leader>m :w<CR><Plug>RubyFileRun
 
 map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
 map <leader>rc :RunRubyFocusedContext<CR>

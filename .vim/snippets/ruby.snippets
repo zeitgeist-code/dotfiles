@@ -72,6 +72,56 @@ snippet tcs
 		${3:}
 
 	end
+snippet reqth
+	require File.dirname(__FILE__) + '/../test_helper'
+
+# rails - associations
+snippet bt
+	belongs_to :${1:model}
+snippet ho 
+	has_one :${1:model}
+snippet hm 
+	has_many :${1:model_plural}
+snippet hmt 
+	has_many :${1:association}, :through => ${2:through_model}
+
+# shoulda - association
+snippet sbt
+	should_belong_to :${1:association}
+snippet sho
+	should_have_one :${1:association}
+snippet shm
+	should_have_many :${1:association}
+
+#rails -validations
+snippet vuo
+	validates_uniqueness_of :${1:field}
+snippet vpo
+	validates_presence_of :${1:field}
+snippet vno
+	validates_numericality_of :${1:field}
+
+# shoulda - validations
+snippet svuo
+	should_validate_uniqueness_of :${1:field}
+snippet svpo
+	should_validate_presence_of :${1:field}
+snippet svno
+	should_validate_numericality_of :${1:field}
+
+
+snippet shdbc
+	should_have_db_columns :${1:column}
+	
+# factory girl
+snippet Fd
+	Factory.define :${1:model} do |f|
+	  f.${2:field}
+	end
+snippet Fb
+	Factory.build :${1:model} do |f|
+	  f.${2:field}
+	end
 snippet sh
 	should "${1:should}" do
 	  ${2:}
