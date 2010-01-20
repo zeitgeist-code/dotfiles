@@ -69,18 +69,18 @@ set spelllang=de
 map <Leader>de :set spelllang=de<CR>:set spell<CR>
 map <Leader>en :set spelllang=en<CR>:set spell<CR>
 
-" set text wrapping toggles
+" Toggle line wrapping: ,w 
 nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
-" Toggle highlight search
+" Toggle search result highlighting: ,n
 nmap <silent> <Leader>n :set invhls<CR>:set hls?<CR>
 
 " edit vim configuration
 if has("win32")
     map <Leader>vr :e $VIMRUNTIME/../_vimrc<CR>
-    au! BufWritePost _vimrc source % " Reload _vimrc after each write
+    au! BufWritePost _vimrc source % " Source _vimrc after each write
   else 
     map <Leader>vr :e ~/.vimrc<CR>
-    au! BufWritePost .vimrc source % " Reload .vimrc after each write
+    au! BufWritePost .vimrc source % " reload .vimrc after each write
 endif
 
 " toggle NERDTree view
@@ -255,6 +255,7 @@ endif
 
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+
 if has("win32")
   source $VIMRUNTIME/after/plugin/snipMate.vim
   source $VIMRUNTIME/mswin.vim
@@ -263,28 +264,30 @@ if has("win32")
   map <f5>  :w<CR>: !jruby %<enter>
    
   " HVP 
-  map ,js :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
-  map ,pr :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
-  map ,fp :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>:vimgrep -r // *<Left><Left><Left>
+  map <f1> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
+  map <f2> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>:vimgrep -r /<C-R>=getreg('""')<cr>/ *<S-Left><S-Left><Right>
+  map <f3> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
+  map <f4> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>:vimgrep -r /<C-R>=getreg('""')<cr>/ *<S-Left><S-Left><Right>
 
-autocmd BufWritePost *.properties  call CreateUnderscoreDe()
-function! CreateUnderscoreDe()
-  exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
-endfunction
+  autocmd BufWritePost *.properties  call CreateUnderscoreDe()
+  function! CreateUnderscoreDe()
+    exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
+  endfunction
 
-map <f12> :call UmlauteToUTFCode()<CR>
-function! UmlauteToUTFCode()
-  exe ':%s/ä/\\u000e/gc'
-  exe ':%s/ö/\\u00f6/gc'
-  exe ':%s/ü/\\u00fc/gc'
-  exe ':%s/Ä/\\u00c4/gc'
-  exe ':%s/Ö/\\u00d6/gc'
-  exe ':%s/ü/\\u00dc/gc'
-  exe ':%s/ß/\\u00df/gc'
-  exe ':%s/©/\\u00a9/gc'
-  exe ':%s//\\u00a9/gc'
-  exe ':%s/©/\\u20ac/gc'
-endfunction
+  map <f12> :call UmlauteToUTFCode()<CR>
+  function! UmlauteToUTFCode()
+    exe ':%s/ä/\\u000e/gc'
+    exe ':%s/ö/\\u00f6/gc'
+    exe ':%s/ü/\\u00fc/gc'
+    exe ':%s/Ä/\\u00c4/gc'
+    exe ':%s/Ö/\\u00d6/gc'
+    exe ':%s/ü/\\u00dc/gc'
+    exe ':%s/ß/\\u00df/gc'
+    exe ':%s/©/\\u00a9/gc'
+    exe ':%s//\\u00a9/gc'
+    exe ':%s/©/\\u20ac/gc'
+  endfunction
+
 endif
 
 
