@@ -268,7 +268,7 @@ if has("win32")
 
   autocmd BufWritePost *.properties  call CreateUnderscoreDe()
   function! CreateUnderscoreDe()
-    exe '!cat ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
+    exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
   endfunction
 
   map <f12> :call UmlauteToUTFCode()<CR>
