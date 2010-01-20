@@ -274,6 +274,8 @@ if has("win32")
     exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
   endfunction
 
+  autocmd BufWritePre *.properties  call UmlauteToUTFCode()
+  
   map <f12> :call UmlauteToUTFCode()<CR>
   function! UmlauteToUTFCode()
     exe ':%s/ä/\\u000e/gc'
