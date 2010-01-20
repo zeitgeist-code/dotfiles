@@ -1,6 +1,6 @@
 call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
-" appearance
+" = appearance =
 colorscheme kreuzberg
 set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
@@ -15,7 +15,7 @@ set showcmd          " display incomplete commands
 set showmode         " show current mode down to bottom
 set hlsearch
 
-set laststatus=2     " Always display the status line
+set laststatus=2     " always display the status line
 set scrolloff=10     " keepmore context when scrolling off the end of a buffer 
 set visualbell       " no beep
 
@@ -75,8 +75,13 @@ nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
 nmap <silent> <Leader>n :set invhls<CR>:set hls?<CR>
 
 " edit vim configuration
-map <Leader>vr :e ~/.vimrc<CR>   
-au! BufWritePost .vimrc source % " Reload .vimrc after each write
+if has("win32")
+    map <Leader>vr :e $VIMRUNTIME/../_vimrc<CR>
+    au! BufWritePost _vimrc source % " Reload _vimrc after each write
+  else 
+    map <Leader>vr :e ~/.vimrc<CR>
+    au! BufWritePost .vimrc source % " Reload .vimrc after each write
+endif
 
 " toggle NERDTree view
 nmap <silent> <Leader>p :NERDTreeToggle<CR>
@@ -96,8 +101,6 @@ map Q gq
 " ,, switches to the last buffer used
 map <leader><leader> <C-^>
 map <Tab> :bn<CR>
-"Make current window the only one
-noremap <leader>o :only<CR>
 
 " Maps autocomplete to ctrl-space
 imap <C-Space> <C-N>
@@ -105,8 +108,6 @@ imap <C-Space> <C-N>
 " Set ctrl-a and ctrl-e to jump to beginning and end of line respectively
 imap <C-a> <C-o>^
 imap <C-e> <C-o>$
-nmap <C-a> ^
-nmap <C-e> $
 
 " shift-enter
 map <S-Enter> O<Esc>
@@ -126,6 +127,7 @@ set foldlevel=1
 set foldnestmax=5
 set foldtext=MyFoldText()
 
+" unaggressive folding text
 function! MyFoldText()
   let line = getline(v:foldstart)
   if match( line, '^[ \t]*\(\/\*\|\/\/\)[*/\\]*[ \t]*$' ) == 0
@@ -160,6 +162,24 @@ function! MyFoldText()
   return sub . info
 endfunction
 
+function! MaximizeToggle()
+  if exists("s:maximize_session")
+    exec "source " . s:maximize_session
+    call delete(s:maximize_session)
+    unlet s:maximize_session
+    let &hidden=s:maximize_hidden_save
+    unlet s:maximize_hidden_save
+  else
+    let s:maximize_hidden_save = &hidden
+    let s:maximize_session = tempname()
+    set hidden
+    exec "mksession! " . s:maximize_session
+    only
+  endif
+endfunction
+
+"Make current window the only one and store previous state
+noremap <leader>o :call MaximizeToggle ()<CR>
 
 " indent file 
 map <Leader>i mx<Esc>gg=G<Esc>'x
@@ -169,10 +189,10 @@ map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x
 " cd to the directory containing the file in the buffer
 nmap  ,cd :lcd %:h
 
-command! W :w " wurstfinger fix: :w == :W 
+command! W :w " wurstfinger fix: :W == :w 
 
 " close window
-map <C-x> :q<CR>
+map ä :q<CR>
 
 " guesses the tab behavior by:
 " 1: snippet if exists
@@ -232,6 +252,36 @@ if executable("ack")
   set grepprg=ack\ -H\ --nogroup\ --nocolor
 endif
 
+
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+if has("win32")
+  source $VIMRUNTIME/after/plugin/snipMate.vim
+  source $VIMRUNTIME/mswin.vim
+  set guifont=Envy_Code_R:h10:b
+  nmap  ,rs :cd c:\development\workspaces\reg_service\Registry-core
+  map <f5>  :w<CR>: !jruby %<enter>
+   
+ " HVP 
+  nmap ,js :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
+  nmap ,pr :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
 
+  autocmd BufWritePost *.properties  call CreateUnderscoreDe()
+  function! CreateUnderscoreDe()
+    exe '!cat ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
+  endfunction
+
+  map <f12> :call UmlauteToUTFCode()<CR>
+  function! UmlauteToUTFCode()
+    exe ':%s/ä/\\u000e/gc'
+    exe ':%s/ö/\\u00f6/gc'
+    exe ':%s/ü/\\u00fc/gc'
+    exe ':%s/Ä/\\u00c4/gc'
+    exe ':%s/Ö/\\u00d6/gc'
+    exe ':%s/ü/\\u00dc/gc'
+    exe ':%s/ß/\\u00df/gc'
+    exe ':%s/©/\\u00a9/gc'
+    exe ':%s//\\u00a9/gc'
+    exe ':%s/©/\\u20ac/gc'
+  endfunction
+endif
