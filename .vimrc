@@ -262,26 +262,29 @@ if has("win32")
   nmap  ,rs :cd c:\development\workspaces\reg_service\Registry-core
   map <f5>  :w<CR>: !jruby %<enter>
    
- " HVP 
-  nmap ,js :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
-  nmap ,pr :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
+  " HVP 
+  map ,js :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
+  map ,pr :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
+  map ,fp :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>:vimgrep -r // *<Left><Left><Left>
 
-  autocmd BufWritePost *.properties  call CreateUnderscoreDe()
-  function! CreateUnderscoreDe()
-    exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
-  endfunction
+autocmd BufWritePost *.properties  call CreateUnderscoreDe()
+function! CreateUnderscoreDe()
+  exe '!type ' . fnameescape(expand("%")) . " > " . fnameescape(expand("%:r") . "_de.properties")
+endfunction
 
-  map <f12> :call UmlauteToUTFCode()<CR>
-  function! UmlauteToUTFCode()
-    exe ':%s/ä/\\u000e/gc'
-    exe ':%s/ö/\\u00f6/gc'
-    exe ':%s/ü/\\u00fc/gc'
-    exe ':%s/Ä/\\u00c4/gc'
-    exe ':%s/Ö/\\u00d6/gc'
-    exe ':%s/ü/\\u00dc/gc'
-    exe ':%s/ß/\\u00df/gc'
-    exe ':%s/©/\\u00a9/gc'
-    exe ':%s//\\u00a9/gc'
-    exe ':%s/©/\\u20ac/gc'
-  endfunction
+map <f12> :call UmlauteToUTFCode()<CR>
+function! UmlauteToUTFCode()
+  exe ':%s/ä/\\u000e/gc'
+  exe ':%s/ö/\\u00f6/gc'
+  exe ':%s/ü/\\u00fc/gc'
+  exe ':%s/Ä/\\u00c4/gc'
+  exe ':%s/Ö/\\u00d6/gc'
+  exe ':%s/ü/\\u00dc/gc'
+  exe ':%s/ß/\\u00df/gc'
+  exe ':%s/©/\\u00a9/gc'
+  exe ':%s//\\u00a9/gc'
+  exe ':%s/©/\\u20ac/gc'
+endfunction
 endif
+
+
