@@ -1,35 +1,41 @@
 call pathogen#runtime_prepend_subdirectories(expand('~/.vim/bundle'))
 
+set nocompatible     " vim, not vi
+set encoding=utf-8
+
 " = appearance =
+
 colorscheme kreuzberg
 set guifont=Inconsolata:h18 "Envy_Code_R:h16
 
 syntax on            " syntax highlighting on
 set columns=999      " set columns
-set lines=999        " max lines 
+set lines=999        " max lines
 set number           " show line numbers
 set cursorline       " highlight cursorline
-
 set ruler            " show the cursor position all the time
 set showcmd          " display incomplete commands
 set showmode         " show current mode down to bottom
 set hlsearch
-
 set laststatus=2     " always display the status line
-set scrolloff=10     " keepmore context when scrolling off the end of a buffer 
+set scrolloff=10     " keepmore context when scrolling off the end of a buffer
 set visualbell       " no beep
-
 set fillchars=""     " no characters in window seperators
 set statusline=%<%f\ %y%=\ [%1*%M%*%n%R%H]\ %-40(%3l,%02c%03V%)%O'%02b'
-set cmdheight=2     " command line height 
+set cmdheight=2      " command line height
+set nowrap           " don't wrap lines
 
-set shellcmdflag=-ic
-
-set guioptions-=T    " no toolbar 
+set guioptions-=T    " no toolbar
 set guioptions-=L    " no scrollbars on the left
 set guioptions-=r    " no scrollbars on the right
 
-" indention
+set splitright   " opens new vertical split on the right
+set splitbelow   " open horizontal spilt on the bottom
+
+"set virtualedit=all
+
+" = indention =
+
 filetype plugin indent on
 set autoindent
 set shiftwidth=2
@@ -37,69 +43,60 @@ set tabstop=2
 set smarttab
 set expandtab
 
-set autoread         " autorefresh files that changed
-set history=1000     " remember 1000 commands
-set nowrap           " don't wrap lines
+" = this and that =
 
-" display extra whitespace
-"set list listchars=tab:»·,trail:·
+set history=1000     " remember 1000 commands
 
 " Make sure that unsaved buffers that are to be put in the background are
 " allowed to go in there (ie. the "must save first" error doesn't come up)
 set hidden
-set incsearch " jump to and mark match while typing
-" case only matters 
-set ignorecase
-set smartcase
+set autoread         " autorefresh files that changed
 
-set splitright " opens new vertical split on the right 
-set splitbelow " open horizontal spilt on the bottom
+set shellcmdflag=-ic
+
+" = searching = 
+
+set incsearch    " jump to and mark match while typing
+set ignorecase   " ignore case in searches
+set smartcase    " not ignore cases when capital letter is given
 
 set clipboard=unnamed " let 'y' copy to clipboard under windows
 
+" = keyboard mappings =
+
 let mapleader=","    " set leader to ','
 
-" ctrl-] 
+" toggle display extra whitespaces
+map <Leader>lc :set list! listchars=tab:»·,trail:·<CR>
+
+" because <C-]> on german keyboard is a impossible mission 
 nnoremap ü <C-]>
-nnoremap Ü <C-O>
 
-" spell ",s"" = toggle spell on/off, language => ",de" or ",en" 
-map <Leader>s :set spell! spell?<CR>
-set spelllang=de
-map <Leader>de :set spelllang=de<CR>:set spell<CR>
-map <Leader>en :set spelllang=en<CR>:set spell<CR>
+" toggle spellchecking by language => ",de" or ",en"
+map <Leader>de :set spelllang=de<CR>:set spell! spell?<CR>
+map <Leader>en :set spelllang=en<CR>:set spell! spell?<CR>
 
-" Toggle line wrapping: ,w 
+" toggle line wrapping ",w"
 nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
-" Toggle search result highlighting: ,n
+" toggle search result highlighting ",n"
 nmap <silent> <Leader>n :set invhls<CR>:set hls?<CR>
 
-" edit vim configuration
-if has("win32")
-    map <Leader>vr :e $VIMRUNTIME/../_vimrc<CR>
-    au! BufWritePost _vimrc source % " Source _vimrc after each write
-  else 
-    map <Leader>vr :e ~/.vimrc<CR>
-    au! BufWritePost .vimrc source % " reload .vimrc after each write
-endif
+" edit vim configuration ",vr"
+map <Leader>vr :e $MYVIMRC<CR>
+au! BufWritePost $MYVIMRC source $MYVIMRC "  source vimrc after each write
 
-" toggle NERDTree view
+" toggle NERDTree view ",p"
 nmap <silent> <Leader>p :NERDTreeToggle<CR>
 
 "map to fuzzy finder text mate stylez
 nnoremap <c-f> :FuzzyFinderTextMate<CR>
- 
+
 "make Y consistent with C and D
 nnoremap Y y$
- 
-"mark syntax errors with :signs
-let g:syntastic_enable_signs=1
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
- 
-" ,, switches to the last buffer used
+" switch to the last buffer used ",,"
 map <leader><leader> <C-^>
+" tab through buffers
 map <Tab> :bn<CR>
 
 " Maps autocomplete to ctrl-space
@@ -109,18 +106,10 @@ imap <C-Space> <C-N>
 imap <C-a> <C-o>^
 imap <C-e> <C-o>$
 
-" shift-enter
+" insert an empty line outside of insert-mode "shift-enter"
 map <S-Enter> O<Esc>
 
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid or when inside an event handler
-" (happens when dropping a file on gvim).
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \   exe "normal g`\"" |
-  \ endif
-
-" folding
+" = folding =
 set foldenable
 set foldmethod=syntax
 set foldlevel=1
@@ -162,6 +151,8 @@ function! MyFoldText()
   return sub . info
 endfunction
 
+" maxmizing a window does not store the previous window setup
+" this funtion stores the previous setup
 function! MaximizeToggle()
   if exists("s:maximize_session")
     exec "source " . s:maximize_session
@@ -181,18 +172,15 @@ endfunction
 "Make current window the only one and store previous state
 noremap <leader>o :call MaximizeToggle ()<CR>
 
-" indent file 
-map <Leader>i mx<Esc>gg=G<Esc>'x
+" indent file (and delete trailing whitespaces)
+map <silent> <Leader>i :%s/\s\+$//<Esc>mx<Esc>gg=G<Esc>'x<ESC>
 " xml indention
-map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x
+map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x<Esc>
 
 " cd to the directory containing the file in the buffer
-nmap  ,cd :lcd %:h
+nmap  <silent> <Leader>cd :lcd %:h
 
-command! W :w " wurstfinger fix: :W == :w 
-
-" close window
-map ä :q<CR>
+command! W :w " wurstfinger fix: :W == :w
 
 " guesses the tab behavior by:
 " 1: snippet if exists
@@ -212,20 +200,19 @@ endfunction
 inoremap <Tab> <C-R>=GuessTab()<CR>
 inoremap <s-tab> <c-n>
 
- 
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
 autocmd BufReadPost * call SetCursorPosition()
 function! SetCursorPosition()
-    if &filetype !~ 'commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    end
+  if &filetype !~ 'commit\c'
+    if line("'\"") > 0 && line("'\"") <= line("$")
+      exe "normal! g`\""
+      normal! zz
+    endif
+  end
 endfunction
- 
-" == ruby == " == ruby == 
+
+" == ruby == " == ruby ==
 " cmd-r will run the given file
 imap <D-r> <ESC><D-r>
 
@@ -252,18 +239,14 @@ if executable("ack")
   set grepprg=ack\ -H\ --nogroup\ --nocolor
 endif
 
-
-" Tags
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-
 if has("win32")
   source $VIMRUNTIME/after/plugin/snipMate.vim
   source $VIMRUNTIME/mswin.vim
   set guifont=Envy_Code_R:h10:b
   nmap  ,rs :cd c:\development\workspaces\reg_service\Registry-core
   map <f5>  :w<CR>: !jruby %<enter>
-   
-  " HVP 
+
+  " HVP
   map <f1> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>
   map <f2> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\webContent\jsp\eisExtensions<CR>:vimgrep -r /<C-R>=getreg('""')<cr>/ *<S-Left><S-Left><Right>
   map <f3> :lcd C:\Dokumente\ und\ Einstellungen\J19727\.dtc\12\DCs\eis.com\eaf\csc\war\uces\_comp\source\com\eonis\eea\hvp\csc\resources<CR>
@@ -275,7 +258,7 @@ if has("win32")
   endfunction
 
   autocmd BufWritePre *.properties  call UmlauteToUTFCode()
-  
+
   map <f12> :call UmlauteToUTFCode()<CR>
   function! UmlauteToUTFCode()
     exe ':%s/ä/\\u000e/gc'
@@ -285,11 +268,6 @@ if has("win32")
     exe ':%s/Ö/\\u00d6/gc'
     exe ':%s/ü/\\u00dc/gc'
     exe ':%s/ß/\\u00df/gc'
-    exe ':%s/©/\\u00a9/gc'
-    exe ':%s//\\u00a9/gc'
-    exe ':%s/©/\\u20ac/gc'
   endfunction
 
 endif
-
-
