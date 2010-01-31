@@ -63,7 +63,7 @@ set autoread         " autorefresh files that changed
 
 set shellcmdflag=-ic
 
-" = searching = 
+" = searching =
 
 set incsearch    " jump to and mark match while typing
 set ignorecase   " ignore case in searches
@@ -78,7 +78,7 @@ let mapleader=","    " set leader to ','
 " toggle display extra whitespaces
 map <Leader>lc :set list! listchars=tab:»·,trail:·<CR>
 
-" because <C-]> on german keyboard is a impossible mission 
+" because <C-]> on german keyboard is a impossible mission
 nnoremap ü <C-]>
 
 " toggle spellchecking by language => ",de" or ",en"
@@ -182,7 +182,7 @@ endfunction
 noremap <leader>o :call MaximizeToggle ()<CR>
 
 " indent file (and delete trailing whitespaces)
-map <silent> <Leader>i :%s/\s\+$//<Esc>mx<Esc>gg=G<Esc>'x<ESC>
+map <silent> <Leader>i :%s/\s\+$//e<Esc>mx<Esc>gg=G<Esc>'x<ESC>
 " xml indention
 map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x<Esc>
 
