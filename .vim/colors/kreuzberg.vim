@@ -40,8 +40,8 @@ hi  link FoldColumn             Folded
 hi Normal        guibg=#1c1c1c guifg=#ffffff ctermbg=Black
 hi NonText  		 guibg=#1c1c1c guifg=#808080 gui=none
 hi Todo          guifg=#118800 guibg=#171717
-hi StatusLine    guifg=#f6f3e8 guibg=#303030 gui=italic
-hi StatusLineNC  guifg=#303030 guibg=#aaaaaa gui=none
+hi StatusLineNC  guifg=#f6f3e8 guibg=#303030 gui=italic
+hi StatusLine    guifg=#303030 guibg=#aaaaaa gui=none
 hi Ignore        ctermfg=Black
 hi WildMenu      guifg=Black   guibg=#ffff00 gui=bold ctermfg=Black ctermbg=Yellow cterm=bold
 hi Cursor 		   guifg=NONE    guibg=#656565 gui=none

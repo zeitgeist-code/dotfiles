@@ -71,6 +71,9 @@ set smartcase    " not ignore cases when capital letter is given
 
 set clipboard=unnamed " let 'y' copy to clipboard under windows
 
+set wildmenu         " Make the command-line completion better
+set complete=.,w,b,t " Same as default except that I remove the 'u' option
+
 " = keyboard mappings =
 
 let mapleader=","    " set leader to ','
@@ -187,12 +190,12 @@ map <silent> <Leader>i :%s/\s\+$//e<Esc>mx<Esc>gg=G<Esc>'x<ESC>
 map <Leader>xi mx<Esc>:%s/></>\r</g<CR>gg=G<Esc>'x<Esc>
 
 " cd to the directory containing the file in the buffer
-nmap  <silent> <Leader>cd :lcd %:h
+nmap  <silent> <Leader>cd :lcd %:h<cr>
 
 command! W :w " wurstfinger fix: :W == :w
 
 " guesses the tab behavior by:
-" 1: snippet if exists
+" 1: snippet if exists^
 " 2: autocomplete if exists
 " 3: <tab>
 " Note: switched off mappings in "snipMate.vim"" file under "after/plugin"
@@ -207,11 +210,23 @@ function! GuessTab()
   endif
 endfunction
 inoremap <Tab> <C-R>=GuessTab()<CR>
+snor <silent> <tab> <esc>i<right><c-r>=GuessTab()<cr>
+
 inoremap <s-tab> <c-n>
 
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
 autocmd BufReadPost * call SetCursorPosition()
+
+" prints color name of word under the cursor
+nmap <silent> <Leader>co :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
+     \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
+     \ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
+     \ . ">"<CR>
+
+" Delete all buffers
+nmap <silent> ,da :exec "1," . bufnr('$') . "bd"<cr>
+
 function! SetCursorPosition()
   if &filetype !~ 'commit\c'
     if line("'\"") > 0 && line("'\"") <= line("$")
@@ -234,11 +249,12 @@ imap <D-r> <ESC><D-r>
 nmap <D-r> :!ruby %<CR>
 
 " ruby focused unit test
-map <Leader>m :w<CR>:!ruby %<CR>
+map <Leader>m :%s/\s\+$//e<Esc>mx<Esc>gg=G<Esc>'x<ESC>:w<CR>:!ruby %<CR>
 "map <Leader>m :RunAllRubyTests<CR>
 "map <Leader>m :w<CR><Plug>RubyFileRun
 
-map <leader>l :call RunTestsForFile('')<cr>:redraw<cr>:call JumpToError()<cr>
+map <leader>l  :w<CR>:call RunTestsForFile('')<cr>:redraw<cr>
+":call JumpToError()<cr>
 map <leader>rc :RunRubyFocusedContext<CR>
 map <Leader>rf :RunRubyFocusedUnitTest<CR>
 map <Leader>rl :RunLastRubyTest<CR>
