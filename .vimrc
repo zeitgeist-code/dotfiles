@@ -6,7 +6,7 @@ set encoding=utf-8
 " = appearance =
 
 colorscheme kreuzberg
-set guifont=Inconsolata:h18 "Envy_Code_R:h16
+set guifont=Inconsolata:h18 
 
 syntax on            " syntax highlighting on
 set columns=999      " set columns
